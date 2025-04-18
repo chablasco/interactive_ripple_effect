@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>CB Interactive Ripple Effect</title>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/p5.js/1.6.0/p5.min.js"></script>
+  <style>
+    html, body {
+      margin: 0;
+      padding: 0;
+      overflow: hidden;
+    }
+    canvas {
+      display: block;
+    }
+  </style>
+</head>
+<body>
+<script>
+let time = 0;
+let speed = 0.05;
+let intensity = 1.0;
+
+let baseHue = 200;
+let hueRange = 50;
+let baseSat = 70;
+let baseBri = 50;
+
+function setup() {
+  createCanvas(windowWidth, windowHeight);
+  noStroke();
+  colorMode(HSB, 360, 100, 100);
+  pixelDensity(1);
+}
+
+function draw() {
+  loadPixels();
+  time += speed;
+
+  let scaleFactor = map(mouseX, 0, width, 0.005, 0.03);
+  let speedFactor = map(mouseY, 0, height, 0.005, 0.03);
+
+  let localIntensity = intensity;
+  if (mouseIsPressed) localIntensity *= 2.0;
+
+  for (let y = 0; y < height; y++) {
+    for (let x = 0; x < width; x++) {
+      let wave1 = Math.sin(x * scaleFactor + time);
+      let wave2 = Math.sin(y * speedFactor + time * 1.5);
+      let wave3 = Math.sin((x + y) * 0.01 + time * 0.7);
+      let wave4 = Math.sin(dist(x, y, width / 2, height / 2) * 0.02 - time * 1.2);
+
+      let wave = (wave1 + wave2 + wave3 + wave4) * localIntensity;
+
+      let hue = (baseHue + wave * hueRange) % 360;
+      let sat = constrain(baseSat + wave * 10, 0, 100);
+      let bri = constrain(baseBri + wave * 15, 0, 100);
+
+      let index = (x + y * width) * 4;
+      let c = color(hue, sat, bri);
+      pixels[index] = red(c);
+      pixels[index + 1] = green(c);
+      pixels[index + 2] = blue(c);
+      pixels[index + 3] = 255;
+    }
+  }
+
+  updatePixels();
+}
+
+function keyPressed() {
+  if (key === 'c' || key === 'C') {
+    baseHue = random(0, 360);
+    hueRange = random(20, 120);
+    baseSat = random(40, 100);
+    baseBri = random(30, 80);
+  }
+
+  if (keyCode === UP_ARROW) speed += 0.005;
+  if (keyCode === DOWN_ARROW) speed = max(0.005, speed - 0.005);
+}
+</script>
+</body>
+</html>
