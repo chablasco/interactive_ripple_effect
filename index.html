@@ -80,7 +80,8 @@ function keyPressed() {
   if (key === 'c' || key === 'C') {
     baseHue = random(260, 300);    // Subtle purple-pink shifts
     hueRange = random(5, 30);     // Gentle ripple tone
-    baseBri = random (25, 50);
+    baseBri = random(25, 40);
+    baseSat = random(20, 50);
   }
 
   if (keyCode === UP_ARROW) speed += 0.005;
