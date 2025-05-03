@@ -26,11 +26,6 @@ let hueRange = 10;
 let baseSat = 30;
 let baseBri = 25;
 
-let targetHue = baseHue;
-let targetRange = hueRange;
-let targetBri = baseBri;  
-let transitionSpeed = 0.9;
-
 function setup() {
   createCanvas(windowWidth, windowHeight);
   noStroke();
@@ -47,10 +42,6 @@ function draw() {
 
   let localIntensity = intensity;
   if (mouseIsPressed) localIntensity *= 2.0;
-
-  baseHue = lerp(baseHue, targetHue, transitionSpeed);
-  hueRange = lerp(hueRange, targetRange, transitionSpeed);
-  baseBri = lerp(baseBri, targetBri, transitionSpeed)
 
   for (let y = 0; y < height; y++) {
     for (let x = 0; x < width; x++) {
@@ -87,9 +78,9 @@ function mousePressed() {
 
 function keyPressed() {
   if (key === 'c' || key === 'C') {
-    targetHue = random(260, 300);    // Subtle purple-pink shifts
-    targetRange = random(5, 30);     // Gentle ripple tone
-    targetBri = random (25, 50);
+    baseHue = random(260, 300);    // Subtle purple-pink shifts
+    hueRange = random(5, 30);     // Gentle ripple tone
+    baseBri = random (25, 50);
   }
 
   if (keyCode === UP_ARROW) speed += 0.005;
