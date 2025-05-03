@@ -21,10 +21,15 @@ let time = 0;
 let speed = 0.05;
 let intensity = 1.0;
 
-let baseHue = 280;     // Initial violet tone
-let hueRange = 10;     // Subtle shifts
-let baseSat = 30;      // Soft desaturated
-let baseBri = 25;      // Dim, glowy
+let baseHue = 280;
+let hueRange = 10;
+let baseSat = 30;
+let baseBri = 25;
+
+let targetHue = baseHue;
+let targetRange = hueRange;
+let targetBri = baseBri;  
+let transitionSpeed = 0.02;
 
 function setup() {
   createCanvas(windowWidth, windowHeight);
@@ -42,6 +47,10 @@ function draw() {
 
   let localIntensity = intensity;
   if (mouseIsPressed) localIntensity *= 2.0;
+
+  baseHue = lerp(baseHue, targetHue, transitionSpeed);
+  hueRange = lerp(hueRange, targetRange, transitionSpeed);
+  baseBri = lerp(baseBri, targetBri, transitionSpeed)
 
   for (let y = 0; y < height; y++) {
     for (let x = 0; x < width; x++) {
@@ -78,8 +87,9 @@ function mousePressed() {
 
 function keyPressed() {
   if (key === 'c' || key === 'C') {
-    baseHue = random(260, 300); // Keep in purple-pink range
-    hueRange = random(5, 30);   // Subtle hue shifts
+    targetHue = random(260, 300);    // Subtle purple-pink shifts
+    targetRange = random(5, 30);     // Gentle ripple tone
+    targetBri = random (25, 50);
   }
 
   if (keyCode === UP_ARROW) speed += 0.005;
