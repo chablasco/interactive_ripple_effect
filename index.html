@@ -68,6 +68,14 @@ function draw() {
   updatePixels();
 }
 
+  function windowResized() {
+  resizeCanvas(windowWidth, windowHeight);
+}
+
+function mousePressed() {
+  fullscreen(!fullscreen());
+}
+
 function keyPressed() {
   if (key === 'c' || key === 'C') {
     baseHue = random(0, 360);
