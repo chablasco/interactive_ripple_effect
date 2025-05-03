@@ -21,10 +21,10 @@ let time = 0;
 let speed = 0.05;
 let intensity = 1.0;
 
-let baseHue = 280;     // Purple base
-let hueRange = 10;    // Allows oranges and pinks
-let baseSat = 30;      // Saturated color
-let baseBri = 25;      // Dark-ish, soft glow
+let baseHue = 280;     // Initial violet tone
+let hueRange = 10;     // Subtle shifts
+let baseSat = 30;      // Soft desaturated
+let baseBri = 25;      // Dim, glowy
 
 function setup() {
   createCanvas(windowWidth, windowHeight);
@@ -78,10 +78,8 @@ function mousePressed() {
 
 function keyPressed() {
   if (key === 'c' || key === 'C') {
-    baseHue = random(0, 360);
-    hueRange = random(20, 120);
-    baseSat = random(40, 100);
-    baseBri = random(30, 80);
+    baseHue = random(260, 300); // Keep in purple-pink range
+    hueRange = random(5, 30);   // Subtle hue shifts
   }
 
   if (keyCode === UP_ARROW) speed += 0.005;
